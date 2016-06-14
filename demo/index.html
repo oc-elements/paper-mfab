@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <title>paper-mfab demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../../iron-icons/iron-icons.html">
+    <link rel="import" href="../../iron-icon/iron-icon.html">
+
+    <link rel="import" href="../paper-mfab.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+
+    <div class="vertical-section-container centered">
+      <h3>Basic paper-mfab Demo</h3>
+      <style>
+        paper-mfab {
+          margin-top: 6em;
+        }
+      </style>
+      <demo-snippet>
+        <template>
+          <paper-mfab></paper-mfab>
+
+          <script>
+            (function() {
+              document.querySelector('paper-mfab').actions = [
+                {
+                  tooltip: 'Download',
+                  icon: 'cloud-download'
+                },
+                {
+                  tooltip: 'Upload',
+                  icon: 'cloud-upload',
+                  tapHandler: function() {
+                    alert('Upload all the things!');
+                  }
+                }
+              ];
+            })();
+          </script>
+        </template>
+      </demo-snippet>
+    </div>
+
+  </body>
+</html>

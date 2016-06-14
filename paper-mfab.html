@@ -1,0 +1,124 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../paper-fab/paper-fab.html">
+<link rel="import" href="../paper-menu-button/paper-menu-button.html">
+
+<!--
+@demo
+-->
+<dom-module id="paper-mfab">
+
+  <template>
+    <style include="iron-flex iron-flex-alignment">
+      :host {
+        display: block;
+        --paper-fab-background: #f05050;
+        --paper-fab-keyboard-focus-background: #ff0000;
+        --paper-menu-button-content: {
+          background-color: transparent;
+          box-shadow: none;
+        };
+      }
+      .dropdown-content {
+        width: 280px;
+      }
+      paper-fab.dropdown-trigger {
+        --paper-fab-iron-icon: {
+          -webkit-transition: 300ms ease all;
+          -moz-transition: 300ms ease all;
+          -o-transition: 300ms ease all;
+          transition: 300ms ease all;
+        }
+      }
+      paper-fab[mini] {
+        margin: 0.4em;
+      }
+      paper-fab[icon="maps:local-shipping"] {
+        --paper-fab-background: var(--paper-light-blue-500);
+        --paper-fab-keyboard-focus-background: var(--paper-light-blue-900);
+      }
+      .tooltip {
+        height: 1em;
+        padding: 0.625em;
+        position: relative;
+        outline: none;
+        font-family: 'Roboto', 'Noto', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1;
+        background-color: #616161;
+        opacity: 0.9;
+        color: white;
+        border-radius: 2px;
+        font-weight: 700;
+        font-size: 13px;
+      }
+    </style>
+    <paper-menu-button
+        id="menuBtn"
+        hidden$="[[ _isEmpty(actions.*) ]]"
+        vertical-offset="70"
+        vertical-align="bottom"
+        horizontal-offset="-218"
+        on-paper-dropdown-open="_whebFabMenuOpening"
+        on-paper-dropdown-close="_whenFabMenuClosing"
+    >
+      <paper-fab id="fab" icon="more-vert" class="dropdown-trigger"></paper-fab>
+      <div class="dropdown-content horizontal end-justified layout">
+        <div>
+          <template is="dom-repeat" items="[[ actions ]]" as="action">
+            <div class="horizontal layout center end-justified">
+              <div class="tooltip">[[ action.tooltip ]]</div>
+              <paper-fab icon="[[ action.icon ]]" mini on-tap="_actionTapped" disabled$="[[ action.disabled ]]"></paper-fab>
+            </div>
+          </template>
+        </div>
+      </div>
+    </paper-menu-button>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'paper-mfab',
+
+        properties: {
+          /**
+           * Array of actions
+           * ```
+           * action: {
+           *  tooltip: String,
+           *  icon: String,
+           *  disabled: Boolean,
+           *  tapHandler: Callback
+           * }
+           * ```
+           */
+          actions: {
+            type: Array
+          }
+        },
+
+        _whebFabMenuOpening: function() {
+          this.$.fab.$.icon.transform('rotate(90deg)', this.$.fab.$.icon);
+        },
+
+        _whenFabMenuClosing: function() {
+          this.$.fab.$.icon.transform('rotate(00deg)', this.$.fab.$.icon);
+        },
+
+        _actionTapped: function(event) {
+          this.$.menuBtn.close();
+          if (event.model.action.tapHandler) {
+            event.model.action.tapHandler();
+          }
+        },
+
+        _isEmpty: function(actions) {
+          return !actions.base || actions.base.length === 0;
+        }
+
+      });
+    })();
+  </script>
+
+</dom-module>
